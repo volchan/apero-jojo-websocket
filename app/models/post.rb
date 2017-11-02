@@ -6,7 +6,16 @@ class Post < ApplicationRecord
 
   private
 
-  def method_name
-
+  def broadcast_to_index
+    ActionCable.server.broadcast(
+      'index',
+      post: ApplicationController.new.render_to_string(
+        partial: 'posts/post',
+        locals: {
+          post: self,
+          path: Rails.application.routes.url_helpers.post_path(self, locale: nil)
+        },
+        layout: false)
+    )
   end
 end

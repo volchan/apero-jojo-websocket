@@ -1,13 +1,11 @@
 <div class="container">
   <div class="row">
     <div class="col-xs-6 col-xs-offset-3">
+      <%= link_to 'New post', new_post_path, class: 'new-link btn btn-primary' %>
       <% if @posts.any? %>
         <div class="posts">
-          <%= link_to 'New post', new_post_path, class: 'new-link btn btn-primary' %>
           <% @posts.each do |post| %>
-            <p class="post"><%= link_to post.title, post %> (
-            <span><%= post.comments.length %></span>
-            )</p>
+            <%= render 'posts/post', post: post %>
           <% end %>
         </div>
       <% else %>
@@ -16,3 +14,22 @@
     </div>
   </div>
 </div>
+
+<%= content_for :after_js do %>
+  <script type="text/javascript">
+    App.cable.subscriptions.create(
+      {
+        channel: "IndexChannel"
+      },
+      {
+        connected: function(data) {
+          console.log("connected to index channel");
+        },
+        received: function(data) {
+          $(".posts").prepend(data["post"]);
+          $(".post").first().hide().slideDown();
+        }
+      }
+    )
+  </script>
+<% end %>

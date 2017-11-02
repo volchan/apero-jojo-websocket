@@ -11,16 +11,11 @@
         <div class="post-comments">
           <%= link_to 'New comment', new_post_comment_path(@post), class: 'btn btn-primary' %>
           <% if @post.comments.any? %>
-            <% @post.comments.each do |comment| %>
-              <div class="post-comments-container">
-                <div class="comment">
-                  <div class="comment-author">
-                    <%= comment.user.email %> at <%= comment.created_at.strftime('%H:%M') %>
-                  </div>
-                  <%= comment.text %>
-                </div>
-              </div>
-            <% end %>
+            <div class="post-comments-container">
+              <% @post.comments.order(created_at: :DESC).each do |comment| %>
+                  <%= render 'comments/comment', comment: comment %>
+              <% end %>
+            </div>
           <% else %>
             <div class="comment">
               <p>no comments yet !</p>
@@ -31,3 +26,23 @@
     </div>
   </div>
 </div>
+
+<%= content_for :after_js do %>
+  <script type="text/javascript">
+    App.cable.subscriptions.create(
+      {
+        channel: "PostChannel",
+        post_id: <%= @post.id %>
+      },
+      {
+        connected: function(data) {
+          console.log("connected to post_<%= @post.id %>");
+        },
+        received: function(data) {
+          $(".post-comments-container").prepend(data["comment"]);
+          $(".comment").first().hide().slideDown();
+        }
+      }
+    )
+  </script>
+<% end %>

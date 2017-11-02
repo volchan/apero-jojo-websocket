@@ -1,0 +1,6 @@
+<div class="comment">
+  <div class="comment-author">
+    <%= comment.user.email %> at <%= comment.created_at.strftime('%H:%M') %>
+  </div>
+  <%= comment.text %>
+</div>

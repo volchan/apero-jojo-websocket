@@ -1,0 +1,23 @@
+<div class="container">
+  <div class="row">
+    <div class="col-xs-6 col-xs-offset-3">
+      <%= simple_form_for @post do |f| %>
+        <div class="row">
+          <div class="col">
+            <%= f.input :title %>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <%= f.input :text %>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <%= f.button :submit, class: 'btn btn-primary' %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

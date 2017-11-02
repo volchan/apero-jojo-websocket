@@ -1,0 +1,33 @@
+<div class="container">
+  <div class="row">
+    <div class="col-xs-6 col-xs-offset-3">
+      <div class="post">
+        <div class="post-title">
+          <h1><%= @post.title %></h1>
+        </div>
+        <div class="post-text">
+          <%= @post.text %>
+        </div>
+        <div class="post-comments">
+          <%= link_to 'New comment', new_post_comment_path(@post), class: 'btn btn-primary' %>
+          <% if @post.comments.any? %>
+            <% @post.comments.each do |comment| %>
+              <div class="post-comments-container">
+                <div class="comment">
+                  <div class="comment-author">
+                    <%= comment.user.email %> at <%= comment.created_at.strftime('%H:%M') %>
+                  </div>
+                  <%= comment.text %>
+                </div>
+              </div>
+            <% end %>
+          <% else %>
+            <div class="comment">
+              <p>no comments yet !</p>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

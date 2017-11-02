@@ -1,2 +1,18 @@
-<h1>Pages#home</h1>
-<p>Find me in app/views/pages/home.html.erb</p>
+<div class="container">
+  <div class="row">
+    <div class="col-xs-6 col-xs-offset-3">
+      <% if @posts.any? %>
+        <div class="posts">
+          <%= link_to 'New post', new_post_path, class: 'new-link btn btn-primary' %>
+          <% @posts.each do |post| %>
+            <p class="post"><%= link_to post.title, post %> (
+            <span><%= post.comments.length %></span>
+            )</p>
+          <% end %>
+        </div>
+      <% else %>
+        <p>no posts yet</p>
+      <% end %>
+    </div>
+  </div>
+</div>

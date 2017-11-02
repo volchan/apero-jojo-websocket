@@ -1,0 +1,16 @@
+.post {
+  &-title {
+    margin: 25px 0;
+  }
+  &-comments {
+    margin-top: 25px;
+    &-container {
+      margin-top: 10px;
+    }
+    .comment {
+      &-author {
+        font-size: 1rem;
+      }
+    }
+  }
+}
